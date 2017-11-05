@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Note: most/all icons are likely to be changed in production version, ones shown in this layout are placeholders.-->
+<!-- Sliding up panel parent view. Contains two children: 
+      first - main view
+      second - sliding view -->
+<!--android:gravity tag used to set which side (top or bottom) the sliding panel extends from-->
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="15dp"
+    sothree:umanoShadowHeight="4dp"
+    sothree:umanoDragView="@+id/dragView">
+  <!--Main View-->
+  <!--Formatted as series of layers inside a full-screen frame layout-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+      <!--Background Map layer-->
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--MapView implemented from the Mapbox SDK-->
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mapview"
+            android:layout_gravity="fill"
+            android:elevation="0dp" />
+      </FrameLayout>
+      <!--Holds the two autocomplete text views used for taking the origin and destination-->
+        <LinearLayout
+            android:id="@+id/actvLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:gravity="top"
+            android:orientation="vertical">
+          <!--Frame holindg the origin autocomplete text view, also holds a button superimposed on the far left for clearing the text view-->
+            <FrameLayout
+                android:id="@+id/originFrame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha=".85"
+                android:background="@color/gray">
+                <AutoCompleteTextView
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="Current Location"
+                    android:hint="Origin"
+                    android:imeOptions="actionGo"
+                    android:id="@+id/originSearchView" />
+              <!--Clear button, slightly transparent with no background but still clickable.-->
+                <Button
+                    android:text="X"
+                    android:alpha=".5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/originClearButton"
+                    android:clickable="true"
+                    android:textIsSelectable="false"
+                    android:layout_gravity="right"
+                    android:padding="0dp"
+                    android:visibility="visible"
+                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:textAlignment="gravity"
+                    android:background="@null" />
+            </FrameLayout>
+          <!--Similar frame for holding the destination autocomplete text view-->
+            <FrameLayout
+                android:id="@+id/destinationFrame"
+                android:alpha=".85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray">
+                <AutoCompleteTextView
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:hint="Destination"
+                    android:imeOptions="actionGo"
+                    android:id="@+id/destinationSearchView" />
+                <Button
+                    android:text="X"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/destinationClearButton"
+                    android:clickable="true"
+                    android:textIsSelectable="false"
+                    android:layout_gravity="right"
+                    android:padding="0dp"
+                    android:visibility="visible"
+                    android:alpha=".5"
+                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:background="@null" />
+            </FrameLayout>
+        </LinearLayout>
+      <!--Holds the route selection and navigation start buttons on the bottom of the screen-->
+        <LinearLayout
+            android:id="@+id/bottomButtonLayout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:paddingBottom="@dimen/abc_control_padding_material">
+            <!--Button for routing, initially set to be partially transparent-->
+            <Button
+                android:text="Route"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/routeButton"
+                android:visibility="visible"
+                android:textIsSelectable="false"
+                android:singleLine="true"
+                android:clickable="true"
+                android:alpha=".5"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/abc_text_size_button_material" />
+          <!--Button for starting navigation, initially set to be partially transparent as well-->
+            <Button
+                android:text="Start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/startButton"
+                android:visibility="visible"
+                android:textIsSelectable="false"
+                android:singleLine="true"
+                android:clickable="false"
+                android:alpha=".5"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/abc_text_size_button_material" />
+        </LinearLayout>
+      <!--Below views are invisible at the start, and are turned on when the user begins navigation-->
+      <!--Holds the upper and lower lines in the navigation ui, the upper containing route statistics and a button, and the lower containing a large view of the current step instructions-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:id="@+id/navigationUiView">
+      <!--Holds the upper line in the navigation ui, shows the route statistics (duration, distance, arrival time) and a button for going back to the routing view-->
+            <LinearLayout
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:background="@color/mapbox_blue">
+              <!--Back to routing button-->
+                <Button
+                    android:text="X"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="30dp"
+                    android:id="@+id/backToRoutingButton"
+                    android:visibility="visible"
+                    android:textIsSelectable="false"
+                    android:singleLine="true"
+                    android:clickable="true"
+                    android:layout_gravity="bottom|left"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/abc_text_size_button_material" />
+              <!--Trip duration text box, uses a tint so it's slightly lighter-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/totalTripDurationText"
+                    android:layout_margin="4dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/background_material_dark"
+                    android:backgroundTintMode="screen"
+                    android:background="@color/mapbox_blue"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/primary_text_default_material_dark"
+                    android:layout_weight="1" />
+              <!--Same type of text box as duration box, but shows estimated arrival time-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/estimatedArrivalTimeText"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="@color/background_material_dark"
+                    android:backgroundTintMode="screen"
+                    android:background="@color/mapbox_blue"
+                    android:textColor="@color/primary_text_default_material_dark"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1" />
+              <!--Same type of text box as the duration box, but shows travel distance-->
+                <TextView
+                    android:id="@+id/totalTravelDistanceText"
+                    android:gravity="center"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="@color/background_material_dark"
+                    android:backgroundTintMode="screen"
+                    android:background="@color/mapbox_blue"
+                    android:textColor="@color/primary_text_default_material_dark"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5.2 miles" />
+            </LinearLayout>
+          <!--Lower section of the top navigation ui, takes up 20% of the remaining screen space after the trip summary text-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:paddingTop="5dp"
+                android:layout_height="0dp"
+                android:background="@color/mapbox_blue"
+                android:layout_weight="2">
+              <!--ImageView for displaying an icon indicating the turn direction (left, slight left, slight right, right, u-turn, etc.)-->
+              <!--TOO: Make dimensions not fixed, could use a (custom) square image view-->
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="40dp"
+                    android:layout_width="40dp"
+                    android:id="@+id/navigationUiImage"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/leftArrow" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:gravity="center|left"
+                        android:id="@+id/turnInstruction"
+                        android:textSize="@dimen/abc_text_size_medium_material"
+                        android:textColor="@color/primary_text_default_material_dark" />
+                    <TextView
+                        android:id="@+id/stepDistanceText"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textSize="@dimen/abc_text_size_small_material"
+                        android:textColor="@color/primary_text_default_material_dark" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--Used to limit the size of the immediately preceding layout (the one with the turn instructions); takes 80% of the screen and is transparent.-->
+            <!--For debugging, a next and back button have been added to the top of the layout to allow stepping through routes. In production these would likely be removed-->
+              <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:background="@null">
+                <!--Debugging: Next button to allow manually stepping forward in route-->
+                <Button
+                    android:text="Next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nextNavigationStep"
+                    android:visibility="visible"
+                    android:textIsSelectable="false"
+                    android:singleLine="true"
+                    android:clickable="true"
+                    android:layout_gravity="top|right"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/abc_text_size_button_material" />
+                <!--Debugging: Back button to allow manually stepping backward in route-->
+                <Button
+                    android:text="Previous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/previousNavigationStep"
+                    android:visibility="visible"
+                    android:textIsSelectable="false"
+                    android:singleLine="true"
+                    android:clickable="true"
+                    android:layout_gravity="top|left"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/abc_text_size_button_material" />
+            </FrameLayout>
+        </LinearLayout>
+        <!--Floating action menu used for citizen reporting, added to the bottom right of the screen.-->
+          <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fabMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="10dp"
+            sothree:menu_fab_size="mini"
+            sothree:menu_icon="@drawable/ic_edit"
+            sothree:menu_labels_showAnimation="@anim/jump_from_down"
+            sothree:menu_labels_hideAnimation="@anim/jump_to_down"
+            sothree:menu_animationDelayPerItem="0"
+            sothree:menu_shadowColor="#444"
+            sothree:menu_colorNormal="#4c4c4c"
+            sothree:menu_colorPressed="#000000"
+            sothree:menu_colorRipple="#a0a0a0">
+            <!--First option, button to report a delay-->
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/delayFab"
+                sothree:fab_size="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                sothree:fab_label="Delay" />
+            <!--Second option, button to report a closure-->
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/closureFab"
+                sothree:fab_size="mini"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_nav_item"
+                sothree:fab_label="Closure" />
+        </com.github.clans.fab.FloatingActionMenu>
+        <!--Floating action button used to recenter the view on the user's location-->
+        <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/recenterOnUserActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_menu"
+        fab:fab_size="mini"
+        fab:fab_colorNormal="#5e2684"
+        fab:fab_colorPressed="#000000"
+        fab:fab_colorRipple="#a0a0a0"/>
+        <!--Nested linearLayouts used to constrain the thumbnail image to take up 1/3 of the x and y space-->
+          <LinearLayout
+            android:id="@+id/subwayThumbLayer"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:focusable="false"
+            android:orientation="vertical">
+            <Space
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:focusable="false"
+                android:clickable="false"
+                android:layout_height="0dp" />
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent">
+              <!--ImageView to store the thumbnail of the subway entrance or destination photo-->
+                <ImageView
+                    android:id="@+id/subwayThumbImage"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:scaleType="centerCrop" />
+                <Space
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:layout_width="0dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <!--Fullscreen frame layout used to store a fullscreen image view for when the user clicks on the thumbnail to expand it. Initially hidden.-->
+          <FrameLayout
+            android:id="@+id/subwayFullLayer"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:focusable="false"
+            android:clickable="false"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/subwayFullImage"
+                android:focusable="false"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop" />
+        </FrameLayout>
+    </FrameLayout>
+  <!--Sliding View-->
+  <!--Weight set to .5, representing the proportion of the screen that it will take up when fully extended-->
+    <LinearLayout
+        android:id="@+id/slidingPanelLayout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_weight=".5">
+      <!--Recycler view for adding scrollable lists to the pull up view-->
+        <android.support.v7.widget.RecyclerView
+            android:background="@color/background_material_light"
+            android:id="@+id/slidingRecycler"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

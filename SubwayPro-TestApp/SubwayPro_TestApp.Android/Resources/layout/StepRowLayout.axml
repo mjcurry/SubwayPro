@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    android:orientation="horizontal"
+    android:background="@color/background_material_light">
+    <ImageView
+        android:layout_width="@dimen/abc_text_size_medium_material"
+        android:layout_marginLeft="10dp"
+        android:layout_height="@dimen/abc_text_size_medium_material"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:id="@+id/stepIcon" />
+    <TextView
+        android:id="@+id/stepText"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_gravity="center_vertical"
+        android:gravity="left"
+        android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/stepDistanceText"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:paddingLeft="5dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="left"
+        android:textColor="@color/black" />
+</LinearLayout>

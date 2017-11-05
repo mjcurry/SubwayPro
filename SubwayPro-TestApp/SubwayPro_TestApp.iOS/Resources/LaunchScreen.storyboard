@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1010" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="X5k-f2-b5h">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="gAE-YM-kbH">
+            <objects>
+                <viewController id="X5k-f2-b5h" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Y8P-hJ-Z43"/>
+                        <viewControllerLayoutGuide type="bottom" id="9ZL-r4-8FZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="center" id="yd7-JS-zBw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="45" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" image="logo.png">
+                                <rect key="frame" x="147" y="160" width="306" height="280"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="49" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" text="SubwayPro">
+                                <rect key="frame" x="178" y="448" width="243" height="83"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="45"/>
+                            </label>
+                        </subviews>
+                        <color key="tintColor" colorSpace="calibratedRGB" red="0.2196078431372549" green="0.74117647058823533" blue="1" alpha="1"/>
+                        <color key="backgroundColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XAI-xm-WK6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="349" y="339"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="Icon-76.png" width="76" height="76"/>
+        <image name="Icon-Small-40.png" width="40" height="40"/>
+        <image name="Icon-Small.png" width="29" height="29"/>
+        <image name="logo.png" width="467" height="446"/>
+        <image name="Icon-App-20x20.png" width="20" height="20"/>
+        <image name="Icon-App-29x29.png" width="29" height="29"/>
+        <image name="Icon-App-40x40.png" width="40" height="40"/>
+        <image name="Icon-App-57x57.png" width="57" height="57"/>
+        <image name="Icon-App-60x60.png" width="60" height="60"/>
+        <image name="Icon-App-72x72.png" width="72" height="72"/>
+        <image name="Icon-App-76x76.png" width="76" height="76"/>
+        <image name="Icon-App-83.5x83.5.png" width="83.5" height="83.5"/>
+        <image name="Icon-Small-50x50.png" width="50" height="50"/>
+    </resources>
+    <color key="tintColor" colorSpace="calibratedRGB" red="0.2196078431372549" green="0.74117647058823533" blue="1" alpha="1"/>
+</document>

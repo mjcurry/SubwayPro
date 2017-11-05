@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Mapbox Sample</string>
+  <string name="mapboxAccessToken">pk.eyJ1IjoiYW5kcmV3aGFycmlzIiwiYSI6ImNqNDdvOWJxNjA5NXozM3Ayd3N6aHJwOTgifQ.IYTTSKv9I3N0ObSHC-0fjg</string>
+</resources>
